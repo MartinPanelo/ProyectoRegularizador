@@ -1,26 +1,26 @@
 
 
-let formCuenta = document.forms["formCuenta"];
+let formRegistro = document.forms["formRegistro"];
 function validarCuentaregistro() {
   flag = true;
 
-  if (!formCuenta["username"].value.match("^@[a-zA-Z0-9\\-_]*$") || formCuenta["username"].value == "") {
+  if (!formRegistro["username"].value.match("^@[a-zA-Z0-9\\-_]*$") || formRegistro["username"].value == "") {
     flag = false;
 
-    formCuenta["username"].classList.add("is-invalid");
-    formCuenta["username"].classList.remove("is-valid");
+    formRegistro["username"].classList.add("is-invalid");
+    formRegistro["username"].classList.remove("is-valid");
   } else {
-    formCuenta["username"].classList.add("is-valid");
-    formCuenta["username"].classList.remove("is-invalid");
+    formRegistro["username"].classList.add("is-valid");
+    formRegistro["username"].classList.remove("is-invalid");
   }
-  if (!formCuenta["password"].value.match("^[a-zA-Z0-9]{6,10}$") || formCuenta["password"].value == "") {
+  if (!formRegistro["password"].value.match("^[a-zA-Z0-9]{6,10}$") || formRegistro["password"].value == "") {
     flag = false;
 
-    formCuenta["password"].classList.add("is-invalid");
-    formCuenta["password"].classList.remove("is-valid");
+    formRegistro["password"].classList.add("is-invalid");
+    formRegistro["password"].classList.remove("is-valid");
   } else {
-    formCuenta["password"].classList.add("is-valid");
-    formCuenta["password"].classList.remove("is-invalid");
+    formRegistro["password"].classList.add("is-valid");
+    formRegistro["password"].classList.remove("is-invalid");
   }
 
   return flag;
@@ -157,7 +157,10 @@ async function crearTablaInstancias(datos,recurso_nombre) {
   }
   const resultado = datos; //de la tabla canari id awd
   const permisos = await mandarToken("CargarRecursos")
-/*   console.log(resultado) */
+  console.log(permisos)
+  let permisoRecurso = permisos.find(element => element.recurso_nombre == recurso_nombre);
+    
+   console.log(permisoRecurso) 
 
   if(resultado != null){   
     nombreRecurso = document.getElementById("nombreRecurso");
@@ -200,37 +203,58 @@ async function crearTablaInstancias(datos,recurso_nombre) {
          // td.setAttribute("scope", "col");
           td.textContent = resultado[item][key];
           tr.appendChild(td);
-          for (let i = 0; i < permisos.length; i++) {
+          }
+          
+/*           for(let a in permisos){ */
+           /*  if(recurso_nombre == permisos[a].recurso_nombre){ */
+         //   console.log(a,permisos[a],permisos[a].recurso_nombre == recurso_nombre)
+          /*   } */
+/*           } */
+/*       for (let i = 0; i < permisos.length; i++) {
             const recurso = permisos[i];
-            for(let k in recurso){
-            /*   console.log(k,recurso[k]); */
-              if(recurso[k] == true && k == "borrar" && recurso["recurso_nombre"] == recurso_nombre){
-                let tdc = document.createElement("td");
-                tdc.innerHTML = `<button type="button" class="btn btn-danger btn-sm " onclick="BorrarItem('${recurso["recurso_nombre"]}/${resultado[item]["id"]}')">Borrar</button>`;
-                tr.appendChild(tdc);
+
+            if(recurso["recurso_nombre"] === recurso_nombre){
+              console.log(recurso["recurso_nombre"],recurso_nombre)
+/*               for(let k in recurso){
+                console.log(k,recurso[k])
                 
-              }
-              if(recurso[k] == true && k == "actualizar" && recurso["recurso_nombre"] == recurso_nombre){
-                let tdc = document.createElement("td");
-                tdc.innerHTML = `<button type="button" class="btn btn-warning btn-sm " onclick="EditarItem('${recurso["recurso_nombre"]}/${resultado[item]["id"]}/edit')">Editar</button>`;
-                tr.appendChild(tdc);
-                
-              }
+              } */
+ /*            }
+            
+          } */
+           
+          /*        
           }
-        }
-          }
+        
+          } */
 
 
 
 
 
         }
+        
+        
+  
+        if(permisoRecurso["borrar"] == true && permisoRecurso["recurso_nombre"] == recurso_nombre){
+          let tdc = document.createElement("td");
+          tdc.innerHTML = `<button type="button" class="btn btn-danger btn-sm " onclick="BorrarItem('${permisoRecurso["recurso_nombre"]}/${resultado[item]["id"]}')">Borrar</button>`;
+          tr.appendChild(tdc);
+          
+        }
+        if(permisoRecurso["actualizar"] == true && permisoRecurso["recurso_nombre"] == recurso_nombre){
+          let tdc = document.createElement("td");
+          tdc.innerHTML = `<button type="button" class="btn btn-warning btn-sm " onclick="EditarItem('${permisoRecurso["recurso_nombre"]}/${resultado[item]["id"]}/edit')">Editar</button>`;
+          tr.appendChild(tdc);
+          
+        }
+        
 
+        
         document.getElementById("TbodyInstancias").appendChild(tr);
     }
 
-    
-  
+   
   }
   
 }
@@ -254,8 +278,11 @@ async function AplicarAgregar(recurso_nombre){//
       console.log(formAgregar.elements[i]);   // id="awd" name="awd" value="45"
       
       //  obj[formAgregar.elements[i].id] = Number(formAgregar.elements[i].value) 
-
+      if(formAgregar.elements[i].type != "checkbox"){
         obj[formAgregar.elements[i].id] = formAgregar.elements[i].value 
+      }else{
+        obj[formAgregar.elements[i].id] = formAgregar.elements[i].checked
+      }
       
     }
   }
@@ -290,8 +317,10 @@ async function AplicarEdicion(recurso_nombre){
       
       if(form.elements[i].id == "id"){
         obj[form.elements[i].id] = Number(form.elements[i].value) 
+      }else if(form.elements[i].type == "checkbox" ){
+        obj[form.elements[i].id] = form.elements[i].checked 
       }else{
-        obj[form.elements[i].id] = form.elements[i].value 
+        obj[form.elements[i].id] = form.elements[i].value
       }
 
      

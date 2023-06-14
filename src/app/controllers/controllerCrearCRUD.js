@@ -27,7 +27,7 @@ const ControllerUsuarios = {
         recurso_nombre: recu.nombre,
       };
       // permiso.create ==> per ={ recurso_nombre - usuario_usuario - consultar - borrar - actualizar - agregar}
-      for (const u in user) {
+       for (const u in user) {
         for (const r in recu) {
           if (r == String(user[u].id)) {
             per.usuario_usuario = user[u].usuario;
@@ -103,21 +103,23 @@ const ControllerUsuarios = {
 
         if (r.includes("enum")) {
           if (typeof recu[r] === "string") {
+            let valores = recu["valorEnum"].replace(/,/g, "','");
             atributos += `${recu[r]}: {
                 type: Sequelize.ENUM('${valores}'),
                 allowNull: true,
               },
               `;
-            let valores = recu["valorEnum"].replace(/,/g, "','");
+            //let valores = recu["valorEnum"].replace(/,/g, "','");
             atributoquery += `,${recu[r]} ENUM ('${valores}')`;
           } else
             for (const key in recu[r]) {
+              let valores = recu["valorEnum"][key].replace(/,/g, "','");
               atributos += `${recu[r][key]}: {
             type: Sequelize.ENUM('${valores}'),
             allowNull: true,
         },
         `;
-              let valores = recu["valorEnum"][key].replace(/,/g, "','");
+              
               atributoquery += `,${recu[r][key]} ENUM ('${valores}')`;
             }
         }
@@ -247,18 +249,26 @@ const ControllerUsuarios = {
                ${per.recurso_nombre}.rawAttributes[campo].type.constructor.key == "ENUM" ? tipo = "select": console.log("4");
         
         
-               estructura_formulario += 
-                \`<label for="\${campo}">\${campo}:</label>
-              <input type="\${tipo}" id="\${campo}" name="\${campo}" value="" ></input>\`
-               }
-             
-        
+               estructura_formulario += \`<label for="\${campo}">\${campo}:</label>\`
+
+               if(${per.recurso_nombre}.rawAttributes[campo].type.constructor.key != "ENUM"){
+
+                estructura_formulario +=\`<input type="${tipo}" id="${campo}" name="${campo}" value="" ></input>\`;
+              
+              }else{
+
+                estructura_formulario +=\`<select name="${campo}" id="${campo}">\`
+
+                ${per.recurso_nombre}.rawAttributes.enum.values.forEach(valor => {
+                  estructura_formulario += \`<option value="${valor}">${valor}</option>\`
+                })
+                estructura_formulario += \`</select>\`
               }
             }
-        
-            estructura_formulario +=\` <button type="submit" class="btn btn-danger btn-sm " onclick="AplicarAgregar('${per.recurso_nombre}')">Agregar</button>
-            </form>\`
-        
+          }
+        }
+        estructura_formulario += \`<button type="submit" class="btn btn-danger btn-sm " onclick="AplicarAgregar('${per.recurso_nombre}')">Agregar</button>
+        </form>\`;
              
               res.json({ resultado: estructura_formulario }); 
             
@@ -350,18 +360,23 @@ const ControllerUsuarios = {
           console.log("El router fue creado correctamente");
         }
       ); 
-
+      (async () => {
+        try {
       const [results, metadata] = await connection.query(
         `CREATE TABLE  ${per.recurso_nombre} (id INTEGER primary KEY AUTO_INCREMENT${atributoquery})`
-      );
-      console.log(results);
-      res.render("index", {results: user, operacion: "Recurso creado" })
-      //res.redirect("/generarCRUD");
+      ); console.log('Tabla creada exitosamente');
+    } catch (error) {
+      console.error('Error al crear la tabla:', error);
+    }
+  })();
+      /* console.log(results); */
+     // res.render("index", {results: user, operacion: "Recurso creado" })
+      res.redirect("/generarCRUD");
     } catch (error) {
 /*       console.log("error",error);
       console.log("error",error.original.errno); */
-
-      error.original.errno == 1062 ? res.render("index", {results: user, operacion: "Ya existe un recurso con ese nombre" }) : res.render("index", {results: user, operacion: error })
+      
+        res.render("index", {results: user, operacion: "Se produjo un error"+error })
 
      //res.render("index", { results: user, operacion: error });
     }

@@ -5,7 +5,7 @@ block head
 block content
     .contenedor
         h1 Crear cuenta
-        form#formCuenta(action="RegistrarUsuario", method="POST", onsubmit="return validarCuentaregistro()")
+        form#formRegistro(action="RegistrarUsuario", method="POST", onsubmit="return validarCuentaregistro()")
             div
                 label(for="username") Usuario:
                 input#username(type="text", name="username",class="form-control" required)

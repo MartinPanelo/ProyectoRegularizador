@@ -11,7 +11,7 @@ const ControllerCuenta = {
   LogearUsuario: async (req, res) => {
     //
     const datosLogeo = req.body;
-    console.log(datosLogeo);
+   /*  console.log(datosLogeo); */
     let user = await usuario.findOne({ where: { usuario: datosLogeo.username } });
 
     if (user == null) {
@@ -42,8 +42,10 @@ const ControllerCuenta = {
   RegistrarUsuario: async (req, res) => {
     const datosRegistro = req.body;
 
-    flag = true;
-
+    let flag = true;
+/*     console.log(datosRegistro.username);
+    console.log(datosRegistro.password);
+    console.log(datosRegistro); */
     if (!datosRegistro.username.match("^@[a-zA-Z0-9\\-_]*$") || datosRegistro.username == "") {
       flag = false;
     }
@@ -51,14 +53,12 @@ const ControllerCuenta = {
       flag = false;
     }
     // return flag;
-    console.log(datosRegistro.username);
-    console.log(datosRegistro.password);
-    console.log(datosRegistro);
+
     if (flag) {
       try {
         const salt = await bcrypt.genSalt(10);
         datosRegistro.password = await bcrypt.hash(datosRegistro.password, salt);
-        console.log(datosRegistro.password);
+        /* console.log(datosRegistro.password); */
         await usuario.create({ usuario: datosRegistro.username, contraseña: datosRegistro.password });
 
         res.render("register", { resultado: "registrado" });

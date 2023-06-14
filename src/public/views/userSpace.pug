@@ -16,8 +16,8 @@ block content
             #header
                 #nombreRecurso
                 .input-group.mb-3
-                    span.input-group-text ID
-                    input.form-control(type='number', id='idRecursoABuscar')
+                    label.input-group-text(for="idRecursoABuscar") ID
+                    input.form-control(type='number', id='idRecursoABuscar', name="idRecursoABuscar")
                     span.input-group
                         button#btnenviarformulario.btn.btn-primary(onclick="BuscarPorID()") Buscar
             table.table.table-striped.table-hover
