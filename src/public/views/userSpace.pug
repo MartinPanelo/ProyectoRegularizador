@@ -1,0 +1,36 @@
+extends ./components/main
+block head
+    link(rel="stylesheet", href="css/homeUser.css")
+    title Soy home usuario
+block content
+    button.btn.btn-primary(onclick="ListarRecursos()") Listar recursos
+    #recursos
+        #tabladerecursos
+            table.table.table-striped.table-hover
+                thead
+                    tr
+                        th(scope="col") ID                    
+                        th(scope="col") Nombre de Recurso
+                tbody#Tbodyrecursos
+        #gestionrecursos
+            #header
+                #nombreRecurso
+                .input-group.mb-3
+                    span.input-group-text ID
+                    input.form-control(type='number', id='idRecursoABuscar')
+                    span.input-group
+                        button#btnenviarformulario.btn.btn-primary(onclick="BuscarPorID()") Buscar
+            table.table.table-striped.table-hover
+                thead#tablehd           
+                tbody#TbodyInstancias
+        #divEdit
+    
+
+
+
+
+
+
+
+    script(src="./js/Cuenta.js")
+        

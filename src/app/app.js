@@ -1,29 +1,19 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
-//const path = require("path");
 
-const Sequelize = require("sequelize");
-const sequelize = new Sequelize("libreria", "root", "", {
-  host: "localhost",
-  dialect: "mysql",
-});
-async function testconnection() {
-  try {
-    await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-  }
-}
-testconnection();
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
 
-const router = require("./router/router");
+
+
+var managerRutas = require("./managerRouter");
+app.use("/", managerRutas);
+
 const dirpublic = __dirname.replace("app", "public");
-
 app.use(express.static(dirpublic));
-app.use(router);
 
 app.set("views", "./src/public/views");
 app.set("view engine", "pug");
 
-app.listen(3000, () => console.log("Server started on port 3000"));
+app.listen(8000, () => console.log("Server started on port 8000"));

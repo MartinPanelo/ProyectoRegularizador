@@ -1,5 +1,18 @@
 extends ./components/main
 block head
+    link(rel="stylesheet", href="css/loginStyle.css")
     title Soy registro
 block content
-    h1 soy registro
+    .contenedor
+        h1 Crear cuenta
+        form#formCuenta(action="RegistrarUsuario", method="POST", onsubmit="return validarCuentaregistro()")
+            div
+                label(for="username") Usuario:
+                input#username(type="text", name="username",class="form-control" required)
+            div
+                label(for="password") Contraseña:
+                input#password(type="password", name="password",class="form-control" required)
+            div
+                button.btn.btn-primary(type="submit") Registrarse
+        h1= resultado
+    script(src="./js/Cuenta.js")

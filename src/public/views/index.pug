@@ -1,5 +1,58 @@
 extends ./components/main
 block head
-    title Soy CRUDDDD
+    link(rel="stylesheet", href="css/style.css")
+    title Pagina principal
 block content
-    h1 soy generar crud
+    .contenedor
+      p#cartel= operacion
+      h1.titulo Formulario para crear recurso
+      form#formRecurso(action="generarCRUD", method="POST", onsubmit="return validadCargaRecurso()")
+        #nombreRecurso
+          label(for="nombre") Nombre
+          input#nombre(type="text", name="nombre", class="form-control")
+        hr
+        #TipoAtributos
+        .dropdown.mt-3
+          button#dropdownMenuButton1.btn.btn-secondary.dropdown-toggle(type="button", data-bs-toggle="dropdown", aria-expanded="false")
+            | Agregar atributo
+          ul.dropdown-menu(aria-labelledby="dropdownMenuButton1")
+            li
+              button.dropdown-item(disabled) Tipo de atributo
+            li
+              hr
+            li
+              button.dropdown-item(type="button", onclick="agregarAtributo(1)") Entero
+            li
+              button.dropdown-item(type="button", onclick="agregarAtributo(2)") varchar
+            li
+              button.dropdown-item(type="button", onclick="agregarAtributo(3)") boleano
+            li
+              button.dropdown-item(type="button", onclick="agregarAtributo(4)") enum
+        hr
+        p Tabla de permisos
+        table#tablaPermisos.table
+          thead
+            tr
+              th(scope="col") #
+              th(scope="col") usuario
+              th(scope="col") consultar
+              th(scope="col") borrar
+              th(scope="col") actualizar
+              th(scope="col") agregar
+          tbody            
+            for item in results              
+              tr
+                td= item.id   
+                td= item.usuario
+                td
+                  input#permisos(type="checkbox", name=item.id, value='consultar')
+                td
+                  input#permisos(type="checkbox", name=item.id, value='borrar')
+                td
+                  input#permisos(type="checkbox", name=item.id, value='actualizar')
+                td
+                  input#permisos(type="checkbox", name=item.id, value='agregar')
+                  
+                    
+        button#btnenviarformulario.btn.btn-primary(type="submit") Crear Recurso
+    script(src="./js/scripts.js")

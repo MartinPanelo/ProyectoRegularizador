@@ -1,3 +1,50 @@
+.contenedor {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid rgb(85, 34, 157);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px;
+}
 h1 {
   font-size: 30px;
 }
+#TipoAtributos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#TipoAtributos div {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+input {
+  margin-left: 5px;
+}
+
+#formRecurso {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#nombreRecurso {
+  display: flex;
+  align-items: center;
+}
+#cartel{
+  border: 2px solid rgb(57, 34, 157);
+  border-radius: 10px;
+  padding: 5px 20px 5px 20px;
+  font-weight: bold;
+  visibility: hidden;
+}
+
+#cartel:not(:empty) {
+  visibility: visible;
+}
+
+
