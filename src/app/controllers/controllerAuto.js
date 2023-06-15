@@ -1,11 +1,11 @@
-const Gatos = require("../models/modeloGatos");
+const Auto = require("../models/modeloAuto");
         const validadorToken = require("../validacionToken");
 
-        const ControllerGatos = {
+        const ControllerAuto = {
           ObtenerUnSoloRecurso: async (req, res) => {
             let token = req.headers.authorization;    
             if(validadorToken(token)){ 
-            const instancia = await Gatos.findByPk(req.params.id);
+            const instancia = await Auto.findByPk(req.params.id);
             res.json({resultado : instancia});
             }
           },
@@ -13,7 +13,7 @@ const Gatos = require("../models/modeloGatos");
           ObtenerTodosLosRecursos: async (req, res) => {
             let token = req.headers.authorization;    
             if(validadorToken(token)){ 
-            const recursos_instancias = await Gatos.findAll()
+            const recursos_instancias = await Auto.findAll()
             res.json({resultado : recursos_instancias});
             }
           },
@@ -21,7 +21,7 @@ const Gatos = require("../models/modeloGatos");
           EliminarRecurso: async (req, res) => {
             let token = req.headers.authorization;    
             if(validadorToken(token)){ 
-              const resultado = await Gatos.destroy({
+              const resultado = await Auto.destroy({
                 where: {
                   id: req.params.id
                 }
@@ -37,28 +37,29 @@ const Gatos = require("../models/modeloGatos");
           VistaFormularioEditarRecurso: async (req, res) => {
             let token = req.headers.authorization;    
             if(validadorToken(token)){         
-              let instancia = await Gatos.findByPk(req.params.id);
+              let instancia = await Auto.findByPk(req.params.id);
          
-                 let estructura_formulario = 
+              let estructura_formulario = 
               `<form id="formEdit"onsubmit="return validadorGenerico()">
                 <div class=header><h1>Editar recurso</h1><button type="button" class="btn-close" aria-label="Close" onclick="cerrarModal()"></button></div>`
         
-            for (let campo in Gatos.rawAttributes) {
-              if (Gatos.rawAttributes.hasOwnProperty(campo)) {
+        
+            for (let campo in Auto.rawAttributes) {
+              if (Auto.rawAttributes.hasOwnProperty(campo)) {
         
                let editable;
                campo == "id" ? editable = "disabled" : editable = "";
                let tipo;
-               Gatos.rawAttributes[campo].type.constructor.key == "INTEGER" ? tipo="number": console.log("1");
-               Gatos.rawAttributes[campo].type.constructor.key == "STRING" ? tipo = "text": console.log("2");
-               Gatos.rawAttributes[campo].type.constructor.key == "BOOLEAN" ? tipo = "checkbox": console.log("3");
-               Gatos.rawAttributes[campo].type.constructor.key == "ENUM" ? tipo = "select": console.log("4");
+               Auto.rawAttributes[campo].type.constructor.key == "INTEGER" ? tipo="number": console.log("1");
+               Auto.rawAttributes[campo].type.constructor.key == "STRING" ? tipo = "text": console.log("2");
+               Auto.rawAttributes[campo].type.constructor.key == "BOOLEAN" ? tipo = "checkbox": console.log("3");
+               Auto.rawAttributes[campo].type.constructor.key == "ENUM" ? tipo = "select": console.log("4");
               
                estructura_formulario += 
                `<label for="${campo}">${campo}:</label>`
 
 
-               if( Gatos.rawAttributes[campo].type.constructor.key != "ENUM"){
+               if( Auto.rawAttributes[campo].type.constructor.key != "ENUM"){
 
 
                 let valor;
@@ -76,8 +77,8 @@ const Gatos = require("../models/modeloGatos");
               estructura_formulario +=`<input type="${tipo}" id="${campo}" name="${campo}" value="${valor}" ${editable} ${check}></input>`
           }else{
             estructura_formulario +=`<select name="${campo}" id="${campo}">`
-            Gatos.rawAttributes[Gatos.rawAttributes[campo].fieldName].values.forEach(valor => {
-              if(instancia.dataValues[Gatos.rawAttributes[campo].fieldName] == valor){
+            Auto.rawAttributes[Auto.rawAttributes[campo].fieldName].values.forEach(valor => {
+              if(instancia.dataValues[Auto.rawAttributes[campo].fieldName] == valor){
                 estructura_formulario += `<option value="${valor}" selected >${valor}</option>`
               }else{
                 estructura_formulario += `<option value="${valor}"  >${valor}</option>`
@@ -88,7 +89,7 @@ const Gatos = require("../models/modeloGatos");
             }
           }
         
-            estructura_formulario +=` <button type="submit" class="btn btn-danger btn-sm " onclick="AplicarEdicion('Gatos')">Aplicar edicion</button>
+            estructura_formulario +=` <button type="submit" class="btn btn-danger btn-sm " onclick="AplicarEdicion('Auto')">Aplicar edicion</button>
             </form>`      
         
               res.json({ resultado: estructura_formulario }); 
@@ -100,7 +101,7 @@ const Gatos = require("../models/modeloGatos");
             
             let token = req.headers.authorization;    
             if(validadorToken(token)){             
-              const resultado = await Gatos.update(req.body, {
+              const resultado = await Auto.update(req.body, {
                 where: {
                   id: req.params.id
                 }
@@ -119,8 +120,8 @@ const Gatos = require("../models/modeloGatos");
             
        
          
-                 let estructura_formulario = 
-              `<form id="formEdit"onsubmit="return validadorGenerico()">
+              let estructura_formulario = 
+              `<form id="formAgregar"onsubmit="return validadorGenerico()">
                 <div class=header><h1>Agregar recurso</h1><button type="button" class="btn-close" aria-label="Close" onclick="cerrarModal()"></button></div>`
         
         
@@ -129,22 +130,22 @@ const Gatos = require("../models/modeloGatos");
         
         
         
-            for (let campo in Gatos.rawAttributes) {
-              if (Gatos.rawAttributes.hasOwnProperty(campo)) {        
+            for (let campo in Auto.rawAttributes) {
+              if (Auto.rawAttributes.hasOwnProperty(campo)) {        
               
                if(campo != "id"){
                  
                
                let tipo;
-               Gatos.rawAttributes[campo].type.constructor.key == "INTEGER" ? tipo="number": console.log("1");
-               Gatos.rawAttributes[campo].type.constructor.key == "STRING" ? tipo = "text": console.log("2");
-               Gatos.rawAttributes[campo].type.constructor.key == "BOOLEAN" ? tipo = "checkbox": console.log("3");
-               Gatos.rawAttributes[campo].type.constructor.key == "ENUM" ? tipo = "select": console.log("4");
+               Auto.rawAttributes[campo].type.constructor.key == "INTEGER" ? tipo="number": console.log("1");
+               Auto.rawAttributes[campo].type.constructor.key == "STRING" ? tipo = "text": console.log("2");
+               Auto.rawAttributes[campo].type.constructor.key == "BOOLEAN" ? tipo = "checkbox": console.log("3");
+               Auto.rawAttributes[campo].type.constructor.key == "ENUM" ? tipo = "select": console.log("4");
         
         
                estructura_formulario += `<label for="${campo}">${campo}:</label>`
 
-               if(Gatos.rawAttributes[campo].type.constructor.key != "ENUM"){
+               if(Auto.rawAttributes[campo].type.constructor.key != "ENUM"){
 
                 estructura_formulario +=`<input type="${tipo}" id="${campo}" name="${campo}" value="" ></input>`;
               
@@ -152,7 +153,7 @@ const Gatos = require("../models/modeloGatos");
 
                 estructura_formulario +=`<select name="${campo}" id="${campo}">`
 
-                Gatos.rawAttributes[Gatos.rawAttributes[campo].fieldName].values.forEach(valor => {
+                Auto.rawAttributes[Auto.rawAttributes[campo].fieldName].values.forEach(valor => {
                   estructura_formulario += `<option value="${valor}">${valor}</option>`
                 })
                 estructura_formulario += `</select>`
@@ -160,7 +161,7 @@ const Gatos = require("../models/modeloGatos");
             }
           }
         }
-        estructura_formulario += `<button type="submit" class="btn btn-danger btn-sm " onclick="AplicarAgregar('Gatos')">Agregar</button>
+        estructura_formulario += `<button type="submit" class="btn btn-danger btn-sm " onclick="AplicarAgregar('Auto')">Agregar</button>
         </form>`;
              
               res.json({ resultado: estructura_formulario }); 
@@ -173,7 +174,7 @@ const Gatos = require("../models/modeloGatos");
               let token = req.headers.authorization;    
               if(validadorToken(token)){ 
               
-              await Gatos.create(req.body)
+              await Auto.create(req.body)
               .then((instanciacreada) => {
                 console.log('Registro creado:', instanciacreada);
                 res.json( {resultado : true})
@@ -184,5 +185,5 @@ const Gatos = require("../models/modeloGatos");
               }
             }
           };
-          module.exports = ControllerGatos;
+          module.exports = ControllerAuto;
         

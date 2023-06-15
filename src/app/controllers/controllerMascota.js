@@ -1,11 +1,11 @@
-const Perro = require("../models/modeloPerro");
+const Mascota = require("../models/modeloMascota");
         const validadorToken = require("../validacionToken");
 
-        const ControllerPerro = {
+        const ControllerMascota = {
           ObtenerUnSoloRecurso: async (req, res) => {
             let token = req.headers.authorization;    
             if(validadorToken(token)){ 
-            const instancia = await Perro.findByPk(req.params.id);
+            const instancia = await Mascota.findByPk(req.params.id);
             res.json({resultado : instancia});
             }
           },
@@ -13,7 +13,7 @@ const Perro = require("../models/modeloPerro");
           ObtenerTodosLosRecursos: async (req, res) => {
             let token = req.headers.authorization;    
             if(validadorToken(token)){ 
-            const recursos_instancias = await Perro.findAll()
+            const recursos_instancias = await Mascota.findAll()
             res.json({resultado : recursos_instancias});
             }
           },
@@ -21,7 +21,7 @@ const Perro = require("../models/modeloPerro");
           EliminarRecurso: async (req, res) => {
             let token = req.headers.authorization;    
             if(validadorToken(token)){ 
-              const resultado = await Perro.destroy({
+              const resultado = await Mascota.destroy({
                 where: {
                   id: req.params.id
                 }
@@ -37,28 +37,29 @@ const Perro = require("../models/modeloPerro");
           VistaFormularioEditarRecurso: async (req, res) => {
             let token = req.headers.authorization;    
             if(validadorToken(token)){         
-              let instancia = await Perro.findByPk(req.params.id);
+              let instancia = await Mascota.findByPk(req.params.id);
          
-                 let estructura_formulario = 
+              let estructura_formulario = 
               `<form id="formEdit"onsubmit="return validadorGenerico()">
-                <h1>Editar recurso</h1>`
+                <div class=header><h1>Editar recurso</h1><button type="button" class="btn-close" aria-label="Close" onclick="cerrarModal()"></button></div>`
         
-            for (let campo in Perro.rawAttributes) {
-              if (Perro.rawAttributes.hasOwnProperty(campo)) {
+        
+            for (let campo in Mascota.rawAttributes) {
+              if (Mascota.rawAttributes.hasOwnProperty(campo)) {
         
                let editable;
                campo == "id" ? editable = "disabled" : editable = "";
                let tipo;
-               Perro.rawAttributes[campo].type.constructor.key == "INTEGER" ? tipo="number": console.log("1");
-               Perro.rawAttributes[campo].type.constructor.key == "STRING" ? tipo = "text": console.log("2");
-               Perro.rawAttributes[campo].type.constructor.key == "BOOLEAN" ? tipo = "checkbox": console.log("3");
-               Perro.rawAttributes[campo].type.constructor.key == "ENUM" ? tipo = "select": console.log("4");
+               Mascota.rawAttributes[campo].type.constructor.key == "INTEGER" ? tipo="number": console.log("1");
+               Mascota.rawAttributes[campo].type.constructor.key == "STRING" ? tipo = "text": console.log("2");
+               Mascota.rawAttributes[campo].type.constructor.key == "BOOLEAN" ? tipo = "checkbox": console.log("3");
+               Mascota.rawAttributes[campo].type.constructor.key == "ENUM" ? tipo = "select": console.log("4");
               
                estructura_formulario += 
                `<label for="${campo}">${campo}:</label>`
 
 
-               if( Perro.rawAttributes[campo].type.constructor.key != "ENUM"){
+               if( Mascota.rawAttributes[campo].type.constructor.key != "ENUM"){
 
 
                 let valor;
@@ -76,8 +77,8 @@ const Perro = require("../models/modeloPerro");
               estructura_formulario +=`<input type="${tipo}" id="${campo}" name="${campo}" value="${valor}" ${editable} ${check}></input>`
           }else{
             estructura_formulario +=`<select name="${campo}" id="${campo}">`
-            Perro.rawAttributes[Perro.rawAttributes[campo].fieldName].values.forEach(valor => {
-              if(instancia.dataValues[Perro.rawAttributes[campo].fieldName] == valor){
+            Mascota.rawAttributes[Mascota.rawAttributes[campo].fieldName].values.forEach(valor => {
+              if(instancia.dataValues[Mascota.rawAttributes[campo].fieldName] == valor){
                 estructura_formulario += `<option value="${valor}" selected >${valor}</option>`
               }else{
                 estructura_formulario += `<option value="${valor}"  >${valor}</option>`
@@ -88,7 +89,7 @@ const Perro = require("../models/modeloPerro");
             }
           }
         
-            estructura_formulario +=` <button type="submit" class="btn btn-danger btn-sm " onclick="AplicarEdicion('Perro')">Aplicar edicion</button>
+            estructura_formulario +=` <button type="submit" class="btn btn-danger btn-sm " onclick="AplicarEdicion('Mascota')">Aplicar edicion</button>
             </form>`      
         
               res.json({ resultado: estructura_formulario }); 
@@ -100,7 +101,7 @@ const Perro = require("../models/modeloPerro");
             
             let token = req.headers.authorization;    
             if(validadorToken(token)){             
-              const resultado = await Perro.update(req.body, {
+              const resultado = await Mascota.update(req.body, {
                 where: {
                   id: req.params.id
                 }
@@ -119,31 +120,32 @@ const Perro = require("../models/modeloPerro");
             
        
          
-                 let estructura_formulario = 
+              let estructura_formulario = 
               `<form id="formAgregar"onsubmit="return validadorGenerico()">
-                <h1>Agregar recurso</h1>`
+                <div class=header><h1>Agregar recurso</h1><button type="button" class="btn-close" aria-label="Close" onclick="cerrarModal()"></button></div>`
+        
         
              
         
         
         
         
-            for (let campo in Perro.rawAttributes) {
-              if (Perro.rawAttributes.hasOwnProperty(campo)) {        
+            for (let campo in Mascota.rawAttributes) {
+              if (Mascota.rawAttributes.hasOwnProperty(campo)) {        
               
                if(campo != "id"){
                  
                
                let tipo;
-               Perro.rawAttributes[campo].type.constructor.key == "INTEGER" ? tipo="number": console.log("1");
-               Perro.rawAttributes[campo].type.constructor.key == "STRING" ? tipo = "text": console.log("2");
-               Perro.rawAttributes[campo].type.constructor.key == "BOOLEAN" ? tipo = "checkbox": console.log("3");
-               Perro.rawAttributes[campo].type.constructor.key == "ENUM" ? tipo = "select": console.log("4");
+               Mascota.rawAttributes[campo].type.constructor.key == "INTEGER" ? tipo="number": console.log("1");
+               Mascota.rawAttributes[campo].type.constructor.key == "STRING" ? tipo = "text": console.log("2");
+               Mascota.rawAttributes[campo].type.constructor.key == "BOOLEAN" ? tipo = "checkbox": console.log("3");
+               Mascota.rawAttributes[campo].type.constructor.key == "ENUM" ? tipo = "select": console.log("4");
         
         
                estructura_formulario += `<label for="${campo}">${campo}:</label>`
 
-               if(Perro.rawAttributes[campo].type.constructor.key != "ENUM"){
+               if(Mascota.rawAttributes[campo].type.constructor.key != "ENUM"){
 
                 estructura_formulario +=`<input type="${tipo}" id="${campo}" name="${campo}" value="" ></input>`;
               
@@ -151,7 +153,7 @@ const Perro = require("../models/modeloPerro");
 
                 estructura_formulario +=`<select name="${campo}" id="${campo}">`
 
-                Perro.rawAttributes[Perro.rawAttributes[campo].fieldName].values.forEach(valor => {
+                Mascota.rawAttributes[Mascota.rawAttributes[campo].fieldName].values.forEach(valor => {
                   estructura_formulario += `<option value="${valor}">${valor}</option>`
                 })
                 estructura_formulario += `</select>`
@@ -159,7 +161,7 @@ const Perro = require("../models/modeloPerro");
             }
           }
         }
-        estructura_formulario += `<button type="submit" class="btn btn-danger btn-sm " onclick="AplicarAgregar('Perro')">Agregar</button>
+        estructura_formulario += `<button type="submit" class="btn btn-danger btn-sm " onclick="AplicarAgregar('Mascota')">Agregar</button>
         </form>`;
              
               res.json({ resultado: estructura_formulario }); 
@@ -172,7 +174,7 @@ const Perro = require("../models/modeloPerro");
               let token = req.headers.authorization;    
               if(validadorToken(token)){ 
               
-              await Perro.create(req.body)
+              await Mascota.create(req.body)
               .then((instanciacreada) => {
                 console.log('Registro creado:', instanciacreada);
                 res.json( {resultado : true})
@@ -183,5 +185,5 @@ const Perro = require("../models/modeloPerro");
               }
             }
           };
-          module.exports = ControllerPerro;
+          module.exports = ControllerMascota;
         

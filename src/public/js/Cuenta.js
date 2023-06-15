@@ -284,7 +284,7 @@ async function AplicarAgregar(recurso_nombre){//
   let URL = recurso_nombre
   
 
-  formAgregar = document.getElementById("formAgregar");
+  let formAgregar = document.getElementById("formAgregar");
   obj ={}
   for (let i=0;i<formAgregar.elements.length;i++){
     if(formAgregar.elements[i].type != "submit"){

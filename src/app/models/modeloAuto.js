@@ -1,25 +1,21 @@
 const Sequelize = require("sequelize");
         const sequelize = require("./../conexion");
-    const Gatos = sequelize.define("Gatos", {
+    const Auto = sequelize.define("Auto", {
       id: {
           type: Sequelize.INTEGER,
           autoIncrement: true,
           primaryKey: true
         },
-            Nombre: {
-                type: Sequelize.STRING,
-                allowNull: true,
-              },
-                  Vidas: {
+                Modelo: {
           type: Sequelize.INTEGER,
           allowNull: true,
           },
-          Vacunado: {
-                type: Sequelize.BOOLEAN,
+          descripcion: {
+                type: Sequelize.STRING,
                 allowNull: true,
               },
-              Origen: {
-                type: Sequelize.ENUM('Domestico','calle','techo','medianera'),
+              Pack: {
+                type: Sequelize.ENUM('Full','Highline','Sport','Normal'),
                 allowNull: true,
               },
               }, {
@@ -28,4 +24,4 @@ const Sequelize = require("sequelize");
             initialAutoIncrement: 1000,
           });
          
-          module.exports = Gatos;
+          module.exports = Auto;

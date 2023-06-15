@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
         const sequelize = require("./../conexion");
-    const Perro = sequelize.define("Perro", {
+    const Mascota = sequelize.define("Mascota", {
       id: {
           type: Sequelize.INTEGER,
           autoIncrement: true,
@@ -14,12 +14,12 @@ const Sequelize = require("sequelize");
                 type: Sequelize.STRING,
                 allowNull: true,
               },
-              Raza: {
-                type: Sequelize.ENUM('Dalmata','Pomerania','Beagle','Collie'),
-                allowNull: true,
-              },
               Vacunado: {
                 type: Sequelize.BOOLEAN,
+                allowNull: true,
+              },
+              Raza: {
+                type: Sequelize.ENUM('Dalmata','Pomerania','Beagle','Collie'),
                 allowNull: true,
               },
               }, {
@@ -28,4 +28,4 @@ const Sequelize = require("sequelize");
             initialAutoIncrement: 1000,
           });
          
-          module.exports = Perro;
+          module.exports = Mascota;

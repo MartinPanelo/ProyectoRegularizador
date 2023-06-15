@@ -6,7 +6,7 @@ const Sequelize = require("sequelize");
           autoIncrement: true,
           primaryKey: true
         },
-                pisos: {
+                Pisos: {
           type: Sequelize.INTEGER,
           allowNull: true,
           },
@@ -18,8 +18,8 @@ const Sequelize = require("sequelize");
                 type: Sequelize.BOOLEAN,
                 allowNull: true,
               },
-              categoria: {
-                type: Sequelize.ENUM('cateUno','cateDos','cateTres'),
+              calidad: {
+                type: Sequelize.ENUM('Exelente','Buena','Mediana','Mala'),
                 allowNull: true,
               },
               }, {

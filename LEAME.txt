@@ -1,0 +1,26 @@
+URL : localhost:8000/generarCRUD
+
+hay algunos usuarios creados:
+usuario : @Admin
+contraseña : 654321
+
+usuario :  @Sudo
+Contraseña : 123456
+
+Iniciar servidor con : npm start
+
+
+NavBar:
+
+crear recurso : permite crear los recursos estando logeado o no 
+
+registro : registrar usuario
+
+iniciar sesion : permite logearse , el "iniciar sesion" no cambia a "cerrar sesion" 
+pero si me permite cambiar de usuario si me logeo con otra cuenta
+
+recursos : hay un boton que dice "listar recursos" que va a listar los recursos del usuario que 
+este logeado, si no hay ningun usuario logeado no trae ningun recurso
+
+
+
