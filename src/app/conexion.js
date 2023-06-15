@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 
-const connection = new Sequelize("libreria", "root", "", {
+const connection = new Sequelize("generador_crud", "root", "", {
   host: "localhost",
   dialect: "mysql",
 });

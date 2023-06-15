@@ -183,18 +183,39 @@ const ControllerUsuarios = {
                ${per.recurso_nombre}.rawAttributes[campo].type.constructor.key == "BOOLEAN" ? tipo = "checkbox": console.log("3");
                ${per.recurso_nombre}.rawAttributes[campo].type.constructor.key == "ENUM" ? tipo = "select": console.log("4");
               
-               let valor;
+               estructura_formulario += 
+               \`<label for="\${campo}">\${campo}:</label>\`
+
+
+               if( ${per.recurso_nombre}.rawAttributes[campo].type.constructor.key != "ENUM"){
+
+
+                let valor;
+                let check;
+
+
+
                for (const key in instancia.dataValues) {      
                 if(campo == key){
                   valor = instancia.dataValues[key];
+                  valor == true ? (check = "checked") : (check = "");
                 }
               }
-                
-               estructura_formulario += 
-                \`<label for="\${campo}">\${campo}:</label>
-              <input type="\${tipo}" id="\${campo}" name="\${campo}" value="\${valor}" \${editable}></input>\`
+
+              estructura_formulario +=\`<input type="\${tipo}" id="\${campo}" name="\${campo}" value="\${valor}" \${editable} \${check}></input>\`
+          }else{
+            estructura_formulario +=\`<select name="\${campo}" id="\${campo}">\`
+            ${per.recurso_nombre}.rawAttributes[${per.recurso_nombre}.rawAttributes[campo].fieldName].values.forEach(valor => {
+              if(instancia.dataValues[${per.recurso_nombre}.rawAttributes[campo].fieldName] == valor){
+                estructura_formulario += \`<option value="\${valor}" selected >\${valor}</option>\`
+              }else{
+                estructura_formulario += \`<option value="\${valor}"  >\${valor}</option>\`
+              }
+            })
+            estructura_formulario += \`</select>\`
           }
             }
+          }
         
             estructura_formulario +=\` <button type="submit" class="btn btn-danger btn-sm " onclick="AplicarEdicion('${per.recurso_nombre}')">Aplicar edicion</button>
             </form>\`      
@@ -253,14 +274,14 @@ const ControllerUsuarios = {
 
                if(${per.recurso_nombre}.rawAttributes[campo].type.constructor.key != "ENUM"){
 
-                estructura_formulario +=\`<input type="${tipo}" id="${campo}" name="${campo}" value="" ></input>\`;
+                estructura_formulario +=\`<input type="\${tipo}" id="\${campo}" name="\${campo}" value="" ></input>\`;
               
               }else{
 
-                estructura_formulario +=\`<select name="${campo}" id="${campo}">\`
+                estructura_formulario +=\`<select name="\${campo}" id="\${campo}">\`
 
-                ${per.recurso_nombre}.rawAttributes.enum.values.forEach(valor => {
-                  estructura_formulario += \`<option value="${valor}">${valor}</option>\`
+                ${per.recurso_nombre}.rawAttributes[${per.recurso_nombre}.rawAttributes[campo].fieldName].values.forEach(valor => {
+                  estructura_formulario += \`<option value="\${valor}">\${valor}</option>\`
                 })
                 estructura_formulario += \`</select>\`
               }
