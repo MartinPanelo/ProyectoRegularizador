@@ -47,11 +47,11 @@ block content
                 td
                   input#permisos(type="checkbox", name=item.id, value='consultar')
                 td
-                  input#permisos(type="checkbox", name=item.id, value='borrar')
+                  input#permisos(type="checkbox", name=item.id, value='borrar' onchange="checkedConsultar(this)")
                 td
-                  input#permisos(type="checkbox", name=item.id, value='actualizar')
+                  input#permisos(type="checkbox", name=item.id, value='actualizar' onchange="checkedConsultar(this)")
                 td
-                  input#permisos(type="checkbox", name=item.id, value='agregar')
+                  input#permisos(type="checkbox", name=item.id, value='agregar' onchange="checkedConsultar(this)")
                   
                     
         button#btnenviarformulario.btn.btn-primary(type="submit") Crear Recurso

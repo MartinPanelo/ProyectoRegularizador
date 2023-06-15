@@ -168,9 +168,10 @@ const ControllerUsuarios = {
             if(validadorToken(token)){         
               let instancia = await ${per.recurso_nombre}.findByPk(req.params.id);
          
-                 let estructura_formulario = 
+              let estructura_formulario = 
               \`<form id="formEdit"onsubmit="return validadorGenerico()">
-                <h1>Editar recurso</h1>\`
+                <div class=header><h1>Editar recurso</h1><button type="button" class="btn-close" aria-label="Close" onclick="cerrarModal()"></button></div>\`
+        
         
             for (let campo in ${per.recurso_nombre}.rawAttributes) {
               if (${per.recurso_nombre}.rawAttributes.hasOwnProperty(campo)) {
@@ -248,9 +249,10 @@ const ControllerUsuarios = {
             
        
          
-                 let estructura_formulario = 
+              let estructura_formulario = 
               \`<form id="formAgregar"onsubmit="return validadorGenerico()">
-                <h1>Agregar recurso</h1>\`
+                <div class=header><h1>Agregar recurso</h1><button type="button" class="btn-close" aria-label="Close" onclick="cerrarModal()"></button></div>\`
+        
         
              
         

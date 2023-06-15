@@ -62,16 +62,27 @@ formlogeo.addEventListener("submit", async (e) => {
       });
       console.log(res.ok, res.status);
       
-      /* for (let aux in res){
-        console.log(res[aux]);
-      } */
-     /*  console.log(typeof res) */
+
       const { token,resultado } = await res.json();
-     /*  console.log(token,resultado); */
+
+
       const msg = document.getElementById("cartel");
       msg.innerHTML = resultado;
-  
-      localStorage.setItem("token", token);
+      if(token != null){
+        localStorage.setItem("token", token);
+
+        
+       
+      }
+      
+
+
+
+      
+
+
+
+      
     } catch (error) {
       console.log(error);
     }
@@ -79,7 +90,8 @@ formlogeo.addEventListener("submit", async (e) => {
 }});
 
 
-async function ListarRecursos() {
+
+  async function ListarRecursos() {
   while (document.getElementById('Tbodyrecursos').firstChild) {
     document.getElementById('Tbodyrecursos').removeChild(document.getElementById('Tbodyrecursos').firstChild);
   }
@@ -138,7 +150,8 @@ async function ListarRecursos() {
 
 }
   }
-}
+   
+};
 async function ConsultarRecurso(recurso_nombre){
 
   const resultado = await mandarToken(recurso_nombre); //de la tabla canari id awd
@@ -262,7 +275,7 @@ async function AgregarItem(nombre_recurso){
   console.log(nombre_recurso);
    const formulario = await mandarToken(nombre_recurso);
    console.log(formulario);
-  document.getElementById("divEdit").innerHTML = formulario 
+  document.getElementById("vidflotante").innerHTML = formulario 
 }
 
 
@@ -304,7 +317,7 @@ async function EditarItem(id){ // /{recurso}/id
 
   const formulario = await mandarToken(id);
  /*  console.log(formulario); */
-   document.getElementById("divEdit").innerHTML = formulario
+   document.getElementById("vidflotante").innerHTML = formulario
 }
 
 
@@ -357,13 +370,16 @@ async function BorrarItem(id){
   
 }
 async function BuscarPorID(){
-  
-  const id = document.getElementById("idRecursoABuscar").value;
+
+
+  let id = document.getElementById("idRecursoABuscar").value;
+  id = Number(id)
+  if(id > 0 && typeof id == "number"){
   const recurso_nombre = document.getElementById("nombreRecurso").textContent
   const URL = recurso_nombre+"/"+id
   let resultado = [await mandarToken(URL)];
   crearTablaInstancias(resultado,recurso_nombre)
-  
+  }
 }
 async function mandarToken(URL,metodo = "GET"){
 try {
@@ -430,3 +446,10 @@ async function mandarTokenConBody(URL,metodo = "GET",data){
   }
   
   }
+
+function cerrarModal(){
+  while (document.getElementById('vidflotante').firstChild) {
+    document.getElementById('vidflotante').removeChild(document.getElementById('vidflotante').firstChild);
+  }
+}
+

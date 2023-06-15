@@ -95,3 +95,17 @@ function validadCargaRecurso() {
 
   return flag;
 }
+
+function checkedConsultar(checkbox){
+  if (checkbox.checked) {
+    let box = document.querySelectorAll('input[value="consultar"]');
+   // console.log(checkbox.name)
+  box.forEach((item) => {
+    if(item.name == checkbox.name){
+      item.checked = true;
+
+    }
+  })
+  
+  }
+}
